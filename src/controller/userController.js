@@ -39,6 +39,26 @@ class UserController {
       res.status(500).send(error);
     }
   };
+  //update user
+  static updateUserInfo = async (req, res) => {
+    const updates = Object.keys(req.body);
+    const allowedUpdates = ["name", "email", "password", "mobile"];
+    const isValidUpdate = updates.every(update =>
+      allowedUpdates.includes(update)
+    );
+
+    if (!isValidUpdate) {
+      return res.status(400).send("Invalid udpate");
+    }
+
+    try {
+      updates.map(update => (req.user[update] = req.body[update]));
+      await req.user.save();
+      res.send(req.user);
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  };
 }
 
 module.exports = UserController;
