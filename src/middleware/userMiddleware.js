@@ -1,7 +1,6 @@
 const { check } = require("express-validator");
 
-const registerMiddlware = [
-  (console.log("I am working"),
+exports.registerMiddlware = [
   check("name", "Name required")
     .not()
     .isEmpty(),
@@ -16,7 +15,5 @@ const registerMiddlware = [
     .isEmpty(),
   check("mobile", "Mobile required")
     .not()
-    .isEmpty())
+    .isEmpty()
 ];
-
-module.exports = registerMiddlware;

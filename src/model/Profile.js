@@ -3,10 +3,11 @@ const Schema = mongoose.Schema;
 
 const ProfileSchema = new Schema({
   name: {
-    type: String
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
   },
-  dataOfBirth: {
-    type: String
+  dateOfBirth: {
+    type: Date
   },
   gender: {
     type: String
@@ -14,14 +15,22 @@ const ProfileSchema = new Schema({
   webste: { type: String },
   firstLanguage: { type: String },
   secondaryLanguage: { type: String },
-
+  address: [
+    {
+      address1: { type: String },
+      address2: { type: String },
+      city: { type: String, required: true },
+      state: { type: String },
+      pin: { type: String }
+    }
+  ],
   education: [
     {
       School: { type: String },
       yearStart: { type: Date },
       yearEnd: { type: Date },
       description: { type: String },
-      currentStatus: { tpe: Boolean }
+      currentStatus: { type: Boolean }
     }
   ],
   placeYouLived: [
@@ -33,10 +42,10 @@ const ProfileSchema = new Schema({
     {
       company: { type: String },
       position: { type: String },
-      place: { type: String },
-      yearStart: { type: Date },
-      yearEnd: { type: Date },
-      currentStatus: { type: Boolean }
+      workPlace: { type: String },
+      workStart: { type: Date },
+      workEnd: { type: Date },
+      workStatus: { type: Boolean }
     }
   ],
   detailsAboutYou: [
@@ -50,4 +59,5 @@ const ProfileSchema = new Schema({
 });
 
 const Profile = mongoose.model("Profile", ProfileSchema);
+
 module.exports = Profile;

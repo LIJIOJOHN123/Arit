@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const jws = require("jsonwebtoken");
 const EnvVariable = require("../config/appConstants");
 const ip = require("ip");
+const gravatar = require("gravatar");
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema(
@@ -13,7 +14,6 @@ const UserSchema = new Schema(
     },
     userName: {
       type: String,
-      required: true,
       unique: true
     },
     email: {
@@ -24,6 +24,9 @@ const UserSchema = new Schema(
     password: {
       type: String,
       required: true
+    },
+    avatar: {
+      type: String
     },
     mobile: {
       type: String,
@@ -59,6 +62,8 @@ UserSchema.pre("save", async function(next) {
     .split(" ")
     .map(single => single[0].toUpperCase() + single.slice(1))
     .join(" ");
+  // avata
+  user.avatar = await gravatar.url(user.email, { s: "200", r: "pg", d: "404" });
   next();
 });
 
