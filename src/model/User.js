@@ -32,6 +32,16 @@ const UserSchema = new Schema(
       type: String,
       required: true
     },
+    status: {
+      type: String,
+      default: "active",
+      enum: ["active", "blocked"]
+    },
+    roles: {
+      type: String,
+      default: "user",
+      enum: ["guest", "user", "superAdmin", "marketing", "worker"]
+    },
     tokens: [
       {
         token: {
