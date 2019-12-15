@@ -95,19 +95,155 @@ exports.addPlace = async (req, res) => {
   }
 };
 /******************* Edit Profile Items ********************/
-exports.editAddress = async (req, res) => {
-  const 
+exports.editProfile = async (req, res) => {
+  try {
+    const updates = Object.keys(req.body);
+    const profile = await Profile.findOne({ user: req.user._id });
+    updates.map(update => (profile[update] = req.body[update]));
+    await profile.save();
+    res.send(profile);
+  } catch (error) {
+    res.status(500).send(error);
+  }
 };
+exports.editAddress = async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user._id });
+    const index = profile.address.findIndex(
+      address => address._id.toString() === req.params.id.toString()
+    );
+    const updates = Object.keys(req.body);
+    updates.map(update => (profile.address[index][update] = req.body[update]));
 
+    await profile.save();
+
+    res.send(profile);
+  } catch (error) {
+    res.status(500).send;
+  }
+};
+exports.editEducation = async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user._id });
+    const index = profile.education.findIndex(
+      education => education.id.toString() === req.params.id.toString()
+    );
+    const updates = Object.keys(req.body);
+    updates.map(
+      update => (profile.education[index][update] = req.body[update])
+    );
+    await profile.save();
+    res.send(profile);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+exports.editWork = async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user._id });
+    const index = profile.work.findIndex(
+      work => work.id.toString() === req.params.id.toString()
+    );
+    const updates = Object.keys(req.body);
+    updates.map(update => (profile.work[index][update] = req.body[update]));
+    await profile.save();
+    res.send(profile);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+/******************* Delete Profile Items ********************/
+exports.deleteAddress = async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user._id });
+    const index = profile.address.findIndex(
+      address => address._id.toString() === req.params.id.toString()
+    );
+    if (index === -1) {
+      return res.status(404).send("Address not exist");
+    }
+    profile.address.splice(index, 1);
+    await profile.save();
+    res.send(profile);
+  } catch (error) {}
+};
+exports.deleteEducation = async (req, res) => {
+  const profile = await Profile.findOne({ user: req.user._id });
+  const index = profile.education.findIndex(
+    education => education._id.toString() === req.params.id.toString()
+  );
+  if (index === -1) {
+    return res.status(404).send("Education not exist");
+  }
+  profile.education.splice(index, 1);
+  await profile.save();
+  res.send(profile);
+  try {
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+exports.deleteWork = async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user._id });
+    const index = profile.work.findIndex(
+      work => work._id.toString() === req.params.id.toString()
+    );
+    if (index === -1) {
+      return res.status(404).send("Work not exist");
+    }
+    profile.work.splice(index, 1);
+    await profile.save();
+    res.send(profile);
+  } catch (error) {}
+};
+exports.deletePlace = async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user._id });
+    const index = profile.placeYouLived.findIndex(
+      place => place._id.toString() === req.params.id.toString()
+    );
+    if (index === -1) {
+      return res.status(404).send("Place not exist");
+    }
+    profile.placeYouLived.splice(index, 1);
+    await profile.save();
+    res.send(profile);
+  } catch (error) {}
+};
+/******************* Get Profile Items ********************/
 exports.getProfile = async (req, res) => {
   try {
     const profile = await Profile.findOne({
-      user: req.user
-    });
+      user: req.user._id
+    }).populate("user");
     res.send(profile);
   } catch (error) {
     res.status(500).send(error);
   }
 };
 
-// const newplaceLived = { place: req.body.place };
+exports.getProfiles = async (req, res) => {
+  try {
+    const profile = await Profile.find().populate("user", [
+      "name",
+      "userName",
+      "avatar"
+    ]);
+    res.send(profile);
+  } catch (error) {
+    res.status(500).send();
+  }
+};
+exports.getProfileById = async (req, res) => {
+  try {
+    const profile = await Profile.findById(req.params.id).populate("user", [
+      "name",
+      "userName",
+      "avatar"
+    ]);
+    res.send(profile);
+  } catch (error) {
+    res.status(500).send();
+  }
+};

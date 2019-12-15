@@ -1,25 +1,56 @@
 const express = require("express");
-const UserController = require("./controller/userController");
+const {
+  registartion,
+  login,
+  updateUserInfo
+} = require("./controller/userController");
 const authMiddleware = require("./middleware/authMiddleware");
 const { registerMiddlware } = require("./middleware/userMiddleware");
-const ProfileController = require("./controller/profileController");
+const {
+  addProfile,
+  addAddress,
+  addEduction,
+  addWork,
+  addPlace,
+  editProfile,
+  editAddress,
+  editEducation,
+  editWork,
+  deleteAddress,
+  deleteEducation,
+  deleteWork,
+  deletePlace,
+  getProfile,
+  getProfiles,
+  getProfileById
+} = require("./controller/profileController");
 
 const router = express.Router();
 
 /*********************************** guest routers *********************************************/
-router.post("/register", registerMiddlware, UserController.registartion);
-router.post("/login", UserController.login);
+router.post("/register", registerMiddlware, registartion);
+router.post("/login", login);
 
 /*********************************** users routers *********************************************/
-router.put("/user", authMiddleware, UserController.updateUserInfo);
+//user @private
+router.put("/user", authMiddleware, updateUserInfo);
 //profile @private
-router.post("/profile", authMiddleware, ProfileController.addProfile);
-router.post("/profile/address", authMiddleware, ProfileController.addAddress);
-router.post("/profile/edu", authMiddleware, ProfileController.addEduction);
-router.post("/profile/work", authMiddleware, ProfileController.addWork);
-router.post("/profile/place", authMiddleware, ProfileController.addPlace);
-router.post("/profile/address", authMiddleware, ProfileController.editAddress);
-//profile @private
-router.get("/profile", authMiddleware, ProfileController.getProfile);
+router.post("/profile", authMiddleware, addProfile);
+router.post("/profile/address", authMiddleware, addAddress);
+router.post("/profile/edu", authMiddleware, addEduction);
+router.post("/profile/work", authMiddleware, addWork);
+router.post("/profile/place", authMiddleware, addPlace);
+router.put("/profile", authMiddleware, editProfile);
+router.put("/profile/address/:id", authMiddleware, editAddress);
+router.put("/profile/education/:id", authMiddleware, editEducation);
+router.put("/profile/work/:id", authMiddleware, editWork);
+router.delete("/profile/address/:id", authMiddleware, deleteAddress);
+router.delete("/profile/education/:id", authMiddleware, deleteEducation);
+router.delete("/profile/work/:id", authMiddleware, deleteWork);
+router.delete("/profile/place/:id", authMiddleware, deletePlace);
+router.get("/profile", authMiddleware, getProfile);
+//profile @public
+router.get("/profiles", getProfiles);
+router.get("/profile/:id", getProfileById);
 
 module.exports = router;
