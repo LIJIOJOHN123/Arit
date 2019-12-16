@@ -24,7 +24,13 @@ const {
   getProfiles,
   getProfileById
 } = require("./controller/profileController");
-
+const {
+  createChannel,
+  getChannel,
+  getOneChannel,
+  editChannel,
+  deleteChannel
+} = require("./controller/channelController");
 const router = express.Router();
 
 /*********************************** guest routers *********************************************/
@@ -52,5 +58,11 @@ router.get("/profile", authMiddleware, getProfile);
 //profile @public
 router.get("/profiles", getProfiles);
 router.get("/profile/:id", getProfileById);
+//channels @private
+router.post("/channel", authMiddleware, createChannel);
+router.get("/channel", authMiddleware, getChannel);
+router.get("/channel/:id", authMiddleware, getOneChannel);
+router.put("/channel/:id", authMiddleware, editChannel);
+router.post("/channel/:id", authMiddleware, deleteChannel);
 
 module.exports = router;
