@@ -1,4 +1,6 @@
 const express = require("express");
+const ArticleParser = require("article-parser");
+
 require("./config/database");
 const app = express();
 

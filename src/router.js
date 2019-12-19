@@ -29,9 +29,24 @@ const {
   getChannel,
   getOneChannel,
   editChannel,
-  deleteChannel
+  deleteChannel,
+  likeChannel,
+  unlikeChannel,
+  shareChannel,
+  unshareChannel,
+  subscribeChannel,
+  unsubscribeChannel,
+  getAllChannels,
+  getByIdChannels
 } = require("./controller/channelController");
 const router = express.Router();
+const {
+  createPost,
+  likePost,
+  unlikePost,
+  sharePost,
+  unsharePost
+} = require("./controller/postController");
 
 /*********************************** guest routers *********************************************/
 router.post("/register", registerMiddlware, registartion);
@@ -64,5 +79,20 @@ router.get("/channel", authMiddleware, getChannel);
 router.get("/channel/:id", authMiddleware, getOneChannel);
 router.put("/channel/:id", authMiddleware, editChannel);
 router.post("/channel/:id", authMiddleware, deleteChannel);
+router.post("/channel/:id/like", authMiddleware, likeChannel);
+router.post("/channel/:id/unlike", authMiddleware, unlikeChannel);
+router.post("/channel/:id/share", authMiddleware, shareChannel);
+router.post("/channel/:id/unshare", authMiddleware, unshareChannel);
+router.post("/channel/:id/subscribe", authMiddleware, subscribeChannel);
+router.post("/channel/:id/unsubscribe", authMiddleware, unsubscribeChannel);
+//channels @private
+router.get("/channels", getAllChannels);
+router.get("/channels/:id", getByIdChannels);
+//post public
+router.post("/channel/:id/post", authMiddleware, createPost);
+router.post("/post/:id/like", authMiddleware, likePost);
+router.post("/post/:id/unlike", authMiddleware, unlikePost);
+router.post("/post/:id/share", authMiddleware, sharePost);
+router.post("/post/:id/unshare", authMiddleware, unsharePost);
 
 module.exports = router;
