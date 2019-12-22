@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const EnvVarible = require("../config/appConstants");
 const Schema = mongoose.Schema;
 
 const channelSchema = new Schema(
@@ -62,8 +63,11 @@ const channelSchema = new Schema(
     ],
     status: {
       type: String,
-      default: "active",
-      enum: ["active", "blocked"]
+      default: EnvVarible.CHANNEL_STATUS.ACTIVE,
+      enum: [
+        EnvVarible.CHANNEL_STATUS.ACTIVE,
+        EnvVarible.CHANNEL_STATUS.BLOCKED
+      ]
     }
   },
   { timestamps: true }

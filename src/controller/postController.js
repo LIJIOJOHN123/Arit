@@ -20,6 +20,28 @@ exports.createPost = async (req, res) => {
     res.status(500).send(error);
   }
 };
+exports.getAllPost = async (req, res) => {
+  try {
+    const post = Post.find({
+      user: req.user._id,
+      channel: req.params.id
+    });
+    res.send(post);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+exports.getPostById = async (req, res) => {
+  try {
+    const post = Post.findById(req.params.id);
+    if (!post) {
+      return res.status(404).send("Post not exists");
+    }
+    res.send(post);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
 exports.likePost = async (req, res) => {
   try {
     const post = await Post.findOne({
@@ -102,6 +124,25 @@ exports.unsharePost = async (req, res) => {
     );
     post.shares.splice(index, 1);
     await post.save();
+    res.send(post);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+exports.getAllPosts = async (req, res) => {
+  try {
+    const posts = await Post.find();
+    res.send(posts);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+exports.getPostsById = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    if (!post) {
+      return res.status(404).send("Post not exists");
+    }
     res.send(post);
   } catch (error) {
     res.status(500).send(error);

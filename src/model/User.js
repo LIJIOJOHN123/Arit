@@ -34,13 +34,24 @@ const UserSchema = new Schema(
     },
     status: {
       type: String,
-      default: "active",
-      enum: ["active", "blocked"]
+      default: EnvVariable.USER_STATUS.ACTIVE,
+      enum: [
+        EnvVariable.USER_STATUS.PENDING_VERIFICATION,
+        EnvVariable.USER_STATUS.ACTIVE,
+        EnvVariable.USER_STATUS.BLOCKED
+      ]
     },
     roles: {
       type: String,
-      default: "user",
-      enum: ["guest", "user", "superAdmin", "marketing", "worker"]
+      default: EnvVariable.USER_ROLE.USER,
+      enum: [
+        EnvVariable.USER_ROLE.GUEST,
+        EnvVariable.USER_ROLE.USER,
+        EnvVariable.USER_ROLE.SUPERADMIN,
+        EnvVariable.USER_ROLE.ADMIN,
+        EnvVariable.USER_ROLE.MARKETING,
+        EnvVariable.USER_ROLE.WORKER
+      ]
     },
     tokens: [
       {

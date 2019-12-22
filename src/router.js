@@ -42,11 +42,22 @@ const {
 const router = express.Router();
 const {
   createPost,
+  getAllPost,
+  getPostById,
   likePost,
   unlikePost,
   sharePost,
-  unsharePost
+  unsharePost,
+  getAllPosts,
+  getPostsById
 } = require("./controller/postController");
+const {
+  addComment,
+  getComment,
+  getCommentById,
+  editCommentById
+  // addReply
+} = require("./controller/commentController");
 
 /*********************************** guest routers *********************************************/
 router.post("/register", registerMiddlware, registartion);
@@ -88,11 +99,22 @@ router.post("/channel/:id/unsubscribe", authMiddleware, unsubscribeChannel);
 //channels @private
 router.get("/channels", getAllChannels);
 router.get("/channels/:id", getByIdChannels);
-//post public
+//post private
 router.post("/channel/:id/post", authMiddleware, createPost);
+router.get("/channel/:id/post", authMiddleware, getAllPost);
+router.get("/post/:id", authMiddleware, getPostById);
 router.post("/post/:id/like", authMiddleware, likePost);
 router.post("/post/:id/unlike", authMiddleware, unlikePost);
 router.post("/post/:id/share", authMiddleware, sharePost);
 router.post("/post/:id/unshare", authMiddleware, unsharePost);
+//post public
+router.post("/channel/:id/posts", getAllPosts);
+router.post("/posts/:id", getPostsById);
+//comment private
+router.post("/post/:id/comment", authMiddleware, addComment);
+router.get("/comment", authMiddleware, getComment);
+router.get("/comment/:id", authMiddleware, getCommentById);
+router.put("/comment/:id", authMiddleware, editCommentById);
+// router.post("/comment/:id/reply", authMiddleware, addReply);
 
 module.exports = router;
