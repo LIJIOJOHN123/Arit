@@ -13,8 +13,7 @@ const UserSchema = new Schema(
       required: true
     },
     userName: {
-      type: String,
-      unique: true
+      type: String
     },
     email: {
       type: String,
@@ -29,8 +28,7 @@ const UserSchema = new Schema(
       type: String
     },
     mobile: {
-      type: String,
-      required: true
+      type: String
     },
     status: {
       type: String,
@@ -83,6 +81,12 @@ UserSchema.pre("save", async function(next) {
     .split(" ")
     .map(single => single[0].toUpperCase() + single.slice(1))
     .join(" ");
+  randomNumber = Math.floor(Math.random() * 2000);
+  user.userName =
+    user.name
+      .toLowerCase()
+      .trim()
+      .split(" ") + randomNumber;
   // avata
   user.avatar = await gravatar.url(user.email, { s: "200", r: "pg", d: "404" });
   next();

@@ -2,7 +2,12 @@ import React, { Fragment } from "react";
 import { Grid, TextField, Button, Paper, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import LetterAvatars from "./Avatar";
-import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { setAlert } from "../../redux/actions/alert";
+import { register } from "../../redux/actions/auth";
+import { Link, Redirect } from "react-router-dom";
+import { PropTypes } from "prop-types";
+
 const userStyle = makeStyles(theme => ({
   outline: {
     padding: 10
@@ -17,7 +22,7 @@ const userStyle = makeStyles(theme => ({
     textDecoration: "none"
   }
 }));
-const Register = () => {
+const Register = ({ setAlert, register, isAuthenticated }) => {
   const [formData, setFormData] = React.useState({
     name: "",
     email: "",
@@ -28,8 +33,11 @@ const Register = () => {
     setFormData({ ...formData, [name]: e.target.value });
   };
   const handleSubmit = () => {
-    console.log(formData);
+    register(formData);
   };
+  // if (isAuthenticated) {
+  //   <Redirect to="/comments" />;
+  // }
   const classes = userStyle();
   return (
     <Fragment>
@@ -86,12 +94,12 @@ const Register = () => {
             </div>
             <br />
             <div>
-              <Typography variant="p">
+              <Typography variant="body2">
                 Particiation Agreeemnt Private Statement FAQ Help
               </Typography>
             </div>
             <br />
-            <Typography>Do you have alread account?</Typography>
+            <Typography variant="body2">Do you have alread account?</Typography>
             <br />
             <div className={classes.center}>
               <div>
@@ -107,7 +115,7 @@ const Register = () => {
               </div>
             </div>
             <br />
-            <Typography variant="p">
+            <Typography variant="body2">
               @Crowdsourcing Online Services Privage Limited 2019
             </Typography>
           </Paper>
@@ -116,5 +124,12 @@ const Register = () => {
     </Fragment>
   );
 };
-
-export default Register;
+Register.propTypes = {
+  setAlert: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool
+};
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+});
+export default connect(mapStateToProps, { setAlert, register })(Register);

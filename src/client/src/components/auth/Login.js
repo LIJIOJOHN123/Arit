@@ -8,8 +8,11 @@ import {
   Button
 } from "@material-ui/core";
 import LetterAvatars from "./Avatar";
-import { Link } from "react-router-dom";
-
+import { Link, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import { setAlert } from "../../redux/actions/alert";
+import PropTypes from "prop-types";
+import { login } from "../../redux/actions/auth";
 const useStyles = makeStyles(theme => ({
   outline: {
     padding: 10
@@ -25,7 +28,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Login = () => {
+const Login = props => {
+  const classes = useStyles();
   const [formData, setFormData] = React.useState({
     email: "",
     password: ""
@@ -35,10 +39,13 @@ const Login = () => {
     setFormData({ ...formData, [email]: e.target.value });
   };
   const handleSubmit = () => {
-    console.log(formData);
+    props.setAlert("You have successfully logged in", "succesfull");
+    props.login(formData);
   };
+  if (props.isAuthenticated) {
+    return <Redirect to="/channels" />;
+  }
 
-  const classes = useStyles();
   return (
     <Fragment>
       <Grid container>
@@ -87,7 +94,7 @@ const Login = () => {
             </div>
             <br />
             <div>
-              <Typography variant="p">
+              <Typography variant="body1">
                 Particiation Agreeemnt Private Statement FAQ Help
               </Typography>
             </div>
@@ -106,7 +113,7 @@ const Login = () => {
               </div>
             </div>
             <br />
-            <Typography variant="p">
+            <Typography variant="body2">
               @Crowdsourcing Online Services Privage Limited 2019
             </Typography>
           </Paper>
@@ -115,5 +122,12 @@ const Login = () => {
     </Fragment>
   );
 };
-
-export default Login;
+Login.propTypes = {
+  login: PropTypes.func.isRequired,
+  // isAuthenticated: PropTypes.bool,
+  setAlert: PropTypes.func.isRequired
+};
+const stateMapToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+});
+export default connect(stateMapToProps, { setAlert, login })(Login);

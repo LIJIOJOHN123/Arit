@@ -2,7 +2,8 @@ const express = require("express");
 const {
   registartion,
   login,
-  updateUserInfo
+  updateUserInfo,
+  getUserInfo
 } = require("./controller/userController");
 const authMiddleware = require("./middleware/authMiddleware");
 const { registerMiddlware } = require("./middleware/userMiddleware");
@@ -66,6 +67,7 @@ router.post("/login", login);
 /*********************************** users routers *********************************************/
 //user @private
 router.put("/user", authMiddleware, updateUserInfo);
+router.get("/user", authMiddleware, getUserInfo);
 //profile @private
 router.post("/profile", authMiddleware, addProfile);
 router.post("/profile/address", authMiddleware, addAddress);
