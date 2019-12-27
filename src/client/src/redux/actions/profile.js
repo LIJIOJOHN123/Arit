@@ -5,8 +5,9 @@ import axios from "axios";
 //get current user profile
 export const currentProfile = () => async dispatch => {
   try {
-    const res = axios.get("http://localhost:8000/api/profile");
+    const res = await axios.get("http://localhost:8000/api/profile");
     dispatch({ type: GET_PROFILE, payload: res.data });
+    console.log(res);
   } catch (error) {
     dispatch({
       type: PROFILE_ERROR,

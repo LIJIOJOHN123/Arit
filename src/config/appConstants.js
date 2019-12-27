@@ -1,6 +1,7 @@
 class EnvVariable {
   static DATABASE_ACCESS =
     "mongodb+srv://lijojohnrbs:100100100@shopping-ngsdx.mongodb.net/test?retryWrites=true&w=majority";
+  // "mongodb://localhost:27017/myapp";
   //user
   static JWT_VARIABLE = "thisismyvideo";
   static USER_ROLE = {
