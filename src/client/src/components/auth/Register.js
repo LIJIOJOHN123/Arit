@@ -23,6 +23,7 @@ const userStyle = makeStyles(theme => ({
   }
 }));
 const Register = ({ setAlert, register, isAuthenticated }) => {
+  const classes = userStyle();
   const [formData, setFormData] = React.useState({
     name: "",
     email: "",
@@ -35,10 +36,10 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
   const handleSubmit = () => {
     register(formData);
   };
-  // if (isAuthenticated) {
-  //   <Redirect to="/comments" />;
-  // }
-  const classes = userStyle();
+  if (isAuthenticated) {
+    return <Redirect to="/comments" />;
+  }
+
   return (
     <Fragment>
       <Grid container>
