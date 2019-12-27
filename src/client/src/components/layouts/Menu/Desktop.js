@@ -67,7 +67,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const DesktopBar = ({ auth: { isAuthenticated, loading }, logout }) => {
-  console.log(isAuthenticated, loading);
   const classes = useStyles();
   const authLink = (
     <AppBar position="static">
@@ -197,10 +196,10 @@ const DesktopBar = ({ auth: { isAuthenticated, loading }, logout }) => {
 };
 
 DesktopBar.propTypes = {
-  logout: PropTypes.func.isRequired
+  logout: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
 };
 const mapStateToProps = state => {
-  console.log(state);
   return {
     auth: state.auth
   };

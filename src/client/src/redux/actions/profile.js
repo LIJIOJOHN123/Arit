@@ -1,0 +1,16 @@
+import { GET_PROFILE, GET_PROFILES, PROFILE_ERROR } from "./typeof";
+import { setAlert } from "./alert";
+import axios from "axios";
+
+//get current user profile
+export const currentProfile = () => async dispatch => {
+  try {
+    const res = axios.get("http://localhost:8000/api/profile");
+    dispatch({ type: GET_PROFILE, payload: res.data });
+  } catch (error) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: error.resposne.statusText, status: error.resposne.status }
+    });
+  }
+};

@@ -12,6 +12,9 @@ import {
   SingleArticlePage,
   SingleChannelPage
 } from "./components/Loading/Loadable";
+import Dashboard from "./components/Dashboard/Dashboard";
+import PrivateRouter from "./components/Private/PrivateRouter";
+import Profile from "./components/Profile/Profile";
 
 const Router = () => {
   return (
@@ -28,6 +31,8 @@ const Router = () => {
           <Route path="/articles" exact component={ArticlePage} />
           <Route path="/articles/:id" exact component={SingleArticlePage} />
           <Route path="/channels/:id" exact component={SingleChannelPage} />
+          <PrivateRouter path="/dashboard" exact component={Dashboard} />
+          <PrivateRouter path="/profile" exact componen={Profile} />
         </Switch>
       </Fragment>
     </BrowserRouter>
