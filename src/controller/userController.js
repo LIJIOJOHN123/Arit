@@ -39,16 +39,23 @@ exports.registartion = async (req, res) => {
 
 exports.login = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
     const user = await User.findOne({ email: req.body.email });
-    if (!user) {
-      return res.status(401).send("Please verify your email and password");
-    }
+    if (!user)
+      return res.status(400).json({
+        errors: [{ msg: "Please verify your email and password" }]
+      });
+
     const isMatch = await bcrypt.compare(req.body.password, user.password);
-    if (!isMatch) {
-      return res.status(401).send("Please verify your email and password");
-    }
+    if (!isMatch)
+      return res.status(400).json({
+        errors: [{ msg: "Please verify your email and password" }]
+      });
     const token = await user.generateToken();
-    res.send({ user, token });
+    res.status(200).send({ user, token });
   } catch (error) {
     res.status(500).send(error);
   }

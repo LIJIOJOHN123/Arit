@@ -11,7 +11,7 @@ export const currentProfile = () => async dispatch => {
   } catch (error) {
     dispatch({
       type: PROFILE_ERROR,
-      payload: { msg: error.resposne.statusText, status: error.resposne.status }
+      payload: setAlert("Please login again")
     });
   }
 };

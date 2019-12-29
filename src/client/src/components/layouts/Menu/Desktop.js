@@ -66,10 +66,11 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const DesktopBar = ({ auth: { isAuthenticated, loading }, logout }) => {
+const DesktopBar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
+  console.log(user);
   const classes = useStyles();
   const authLink = (
-    <AppBar position="static">
+    <AppBar position="fixed">
       <Toolbar className={classes.toolbar}>
         <Typography variant="h6">News</Typography>
         <Button>
@@ -116,9 +117,16 @@ const DesktopBar = ({ auth: { isAuthenticated, loading }, logout }) => {
           />
         </div>
         <Typography className={classes.title}></Typography>
-        <a onClick={logout} href="/">
-          Logout
-        </a>
+        <Button color="inherit">
+          <Link className={classes.link} to="/profile">
+            {user ? user.name : null}
+          </Link>
+        </Button>
+        <Button>
+          <Link className={classes.link} onClick={logout} href="/channel">
+            Logout
+          </Link>
+        </Button>
       </Toolbar>
     </AppBar>
   );

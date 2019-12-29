@@ -6,7 +6,10 @@ const {
   getUserInfo
 } = require("./controller/userController");
 const authMiddleware = require("./middleware/authMiddleware");
-const { registerMiddlware } = require("./middleware/userMiddleware");
+const {
+  registerMiddlware,
+  loginMiddlware
+} = require("./middleware/userMiddleware");
 const {
   addProfile,
   addAddress,
@@ -62,7 +65,7 @@ const {
 
 /*********************************** guest routers *********************************************/
 router.post("/register", registerMiddlware, registartion);
-router.post("/login", login);
+router.post("/login", loginMiddlware, login);
 
 /*********************************** users routers *********************************************/
 //user @private

@@ -11,3 +11,12 @@ exports.registerMiddlware = [
     .not()
     .isEmpty()
 ];
+
+exports.loginMiddlware = [
+  check("email", "Email required")
+    .not()
+    .isEmpty(),
+  check("password", "Password required")
+    .not()
+    .isEmpty()
+];

@@ -165,7 +165,9 @@ exports.deleteAddress = async (req, res) => {
     profile.address.splice(index, 1);
     await profile.save();
     res.send(profile);
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).send(error);
+  }
 };
 exports.deleteEducation = async (req, res) => {
   const profile = await Profile.findOne({ user: req.user._id });
@@ -195,7 +197,9 @@ exports.deleteWork = async (req, res) => {
     profile.work.splice(index, 1);
     await profile.save();
     res.send(profile);
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).send(error);
+  }
 };
 exports.deletePlace = async (req, res) => {
   try {
@@ -209,7 +213,9 @@ exports.deletePlace = async (req, res) => {
     profile.placeYouLived.splice(index, 1);
     await profile.save();
     res.send(profile);
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).send(error);
+  }
 };
 /******************* Get Profile Items ********************/
 exports.getProfile = async (req, res) => {
@@ -217,6 +223,10 @@ exports.getProfile = async (req, res) => {
     const profile = await Profile.findOne({
       user: req.user._id
     }).populate("user");
+    if (!profile)
+      return res.status(400).json({
+        errors: [{ msg: "Please check profile" }]
+      });
     res.send(profile);
   } catch (error) {
     res.status(500).send(error);

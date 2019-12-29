@@ -39,10 +39,10 @@ const Login = props => {
     setFormData({ ...formData, [email]: e.target.value });
   };
   const handleSubmit = () => {
-    props.setAlert("You have successfully logged in", "succesfull");
     props.login(formData);
   };
   if (props.isAuthenticated) {
+    props.setAlert("You have successfully logged in", "succesfull");
     return <Redirect to="/channels" />;
   }
 
